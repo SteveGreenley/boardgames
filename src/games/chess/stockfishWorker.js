@@ -14,7 +14,7 @@ const initEngine = () => {
 
     try {
       // Load stockfish from public folder - it creates its own internal web worker
-      const stockfishPath = '/stockfish-17.1-lite-single-03e3232.js';
+      const stockfishPath = `${import.meta.env.BASE_URL}stockfish-17.1-lite-single-03e3232.js`;
       worker = new Worker(stockfishPath);
 
       worker.onmessage = (e) => {
