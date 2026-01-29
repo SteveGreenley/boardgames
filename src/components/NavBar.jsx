@@ -5,7 +5,7 @@ const NavBar = () => {
   return (
     <nav className="navbar">
       <NavLink to="/" className="nav-brand">
-        Game Center
+        Board Games
       </NavLink>
       <div className="nav-links">
         {games.map((game) => (

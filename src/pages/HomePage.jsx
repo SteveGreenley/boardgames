@@ -4,7 +4,7 @@ import games from '../games';
 const HomePage = () => {
   return (
     <div className="home-page">
-      <h1>Game Center</h1>
+      <h1>Board Games</h1>
       <p className="home-subtitle">Choose a game to play</p>
       <div className="games-grid">
         {games.map((game) => (
