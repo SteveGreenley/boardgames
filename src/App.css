@@ -170,3 +170,9 @@ button {
 button:hover {
   background: var(--color-accent-hover);
 }
+
+@media (max-width: 600px) {
+  .games-grid {
+    grid-template-columns: 1fr;
+  }
+}
