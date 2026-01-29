@@ -1,0 +1,61 @@
+.tictactoe-container {
+  text-align: center;
+}
+
+.tictactoe-container h1 {
+  margin-bottom: 10px;
+  font-size: 2.5rem;
+}
+
+.tictactoe-container .status {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+  min-height: 30px;
+}
+
+.tictactoe-container .board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 8px;
+  margin: 0 auto 20px;
+}
+
+.tictactoe-container .cell {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 3rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.tictactoe-container .cell:hover:not(.taken) {
+  background: var(--color-surface-hover);
+}
+
+.tictactoe-container .cell.taken {
+  cursor: not-allowed;
+}
+
+.tictactoe-container .cell.x {
+  color: var(--color-accent);
+}
+
+.tictactoe-container .cell.o {
+  color: var(--color-secondary);
+}
+
+.tictactoe-container .cell.winner {
+  background: var(--color-border);
+  animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
