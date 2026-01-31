@@ -1,6 +1,7 @@
 import TicTacToe from './tictactoe';
 import Chess from './chess';
 import Reversi from './reversi';
+import Checkers from './checkers';
 
 const games = [
   {
@@ -26,6 +27,14 @@ const games = [
     component: Reversi,
     icon: '\u26AB',
     description: "Classic strategy game - flip your opponent's pieces",
+  },
+  {
+    id: 'checkers',
+    name: 'Checkers',
+    path: '/checkers',
+    component: Checkers,
+    icon: '\u26C2',
+    description: 'Jump and capture your way to victory',
   },
 ];
 
