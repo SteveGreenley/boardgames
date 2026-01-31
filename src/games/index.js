@@ -1,5 +1,6 @@
 import TicTacToe from './tictactoe';
 import Chess from './chess';
+import Reversi from './reversi';
 
 const games = [
   {
@@ -17,6 +18,14 @@ const games = [
     component: Chess,
     icon: '\u265E',
     description: 'Play chess against Stockfish AI',
+  },
+  {
+    id: 'reversi',
+    name: 'Reversi',
+    path: '/reversi',
+    component: Reversi,
+    icon: '\u26AB',
+    description: "Classic strategy game - flip your opponent's pieces",
   },
 ];
 
