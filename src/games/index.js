@@ -2,6 +2,7 @@ import TicTacToe from './tictactoe';
 import Chess from './chess';
 import Reversi from './reversi';
 import Checkers from './checkers';
+import Go from './go';
 
 const games = [
   {
@@ -35,6 +36,14 @@ const games = [
     component: Checkers,
     icon: '\u26C2',
     description: 'Jump and capture your way to victory',
+  },
+  {
+    id: 'go',
+    name: 'Go',
+    path: '/go',
+    component: Go,
+    icon: '\u25CB',
+    description: 'Ancient strategy game of territory and capture',
   },
 ];
 
