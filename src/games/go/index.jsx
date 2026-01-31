@@ -110,35 +110,11 @@ const Go = () => {
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [captures, setCaptures] = useState({ black: 0, white: 0 });
 
-  // Initialize game and board
-  const initGame = useCallback(() => {
-    if (!boardRef.current) return;
-
-    // Clear previous board
-    if (svgBoardRef.current) {
-      boardRef.current.innerHTML = '';
-    }
-
-    // Create new game
-    gameRef.current = new Game(boardSize);
-    stonesRef.current = [];
-
-    // Create SVG board
-    svgBoardRef.current = new SVGBoard(boardRef.current, {
-      size: boardSize,
-      width: 400,
-      height: 400,
-      coordinates: true,
-    });
-
-    setIsPlayerTurn(true);
-    setCaptures({ black: 0, white: 0 });
-  }, [boardSize]);
-
-  // Initialize on mount and when board size changes
-  useEffect(() => {
-    initGame();
-  }, [initGame]);
+  // Use refs to access latest state in click handler without re-registering
+  const isPlayerTurnRef = useRef(isPlayerTurn);
+  const gameOverRef = useRef(gameOver);
+  isPlayerTurnRef.current = isPlayerTurn;
+  gameOverRef.current = gameOver;
 
   // Sync board display with game state
   const syncBoard = useCallback(() => {
@@ -166,29 +142,69 @@ const Go = () => {
     setCaptures({ ...game.capCount });
   }, []);
 
-  // Handle player click
-  const handleBoardClick = useCallback((event, point) => {
-    if (!isPlayerTurn || gameOver || !gameRef.current) return;
-
-    const { x, y } = point;
-    const game = gameRef.current;
-
-    if (!game.isValid(x, y)) return;
-
-    const result = game.play(x, y);
-    if (result) {
-      syncBoard();
-      setState(prev => ({ ...prev, consecutivePasses: 0 }));
-      setIsPlayerTurn(false);
-    }
-  }, [isPlayerTurn, gameOver, syncBoard, setState]);
-
-  // Setup click handler
+  // Initialize game and board
   useEffect(() => {
-    if (!svgBoardRef.current) return;
+    if (!boardRef.current) return;
 
-    svgBoardRef.current.on('click', handleBoardClick);
-  }, [handleBoardClick]);
+    // Clear previous board
+    boardRef.current.innerHTML = '';
+
+    // Create new game
+    gameRef.current = new Game(boardSize);
+    stonesRef.current = [];
+
+    // Create SVG board
+    const board = new SVGBoard(boardRef.current, {
+      size: boardSize,
+      width: 400,
+      height: 400,
+      coordinates: true,
+    });
+    svgBoardRef.current = board;
+
+    // Setup click handler once when board is created
+    board.on('click', (event, point) => {
+      if (!isPlayerTurnRef.current || gameOverRef.current || !gameRef.current) return;
+
+      const { x, y } = point;
+      const game = gameRef.current;
+
+      if (!game.isValid(x, y)) return;
+
+      const result = game.play(x, y);
+      if (result) {
+        // Sync board
+        for (const stone of stonesRef.current) {
+          board.removeObject(stone);
+        }
+        stonesRef.current = [];
+
+        for (let i = 0; i < game.size; i++) {
+          for (let j = 0; j < game.size; j++) {
+            const color = game.getStone(i, j);
+            if (color === Color.BLACK || color === Color.WHITE) {
+              const stone = { x: i, y: j, type: color === Color.BLACK ? 'B' : 'W' };
+              stonesRef.current.push(stone);
+              board.addObject(stone);
+            }
+          }
+        }
+
+        setCaptures({ ...game.capCount });
+        setState(prev => ({ ...prev, consecutivePasses: 0 }));
+        setIsPlayerTurn(false);
+      }
+    });
+
+    setIsPlayerTurn(true);
+    setCaptures({ black: 0, white: 0 });
+
+    return () => {
+      if (boardRef.current) {
+        boardRef.current.innerHTML = '';
+      }
+    };
+  }, [boardSize, setState]);
 
   // Computer's turn
   useEffect(() => {
@@ -265,7 +281,7 @@ const Go = () => {
 
   const handleNewGame = () => {
     resetState();
-    initGame();
+    // Board will reinitialize via useEffect when state changes
   };
 
   const handleBoardSizeChange = (e) => {
