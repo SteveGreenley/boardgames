@@ -3,6 +3,7 @@ import Chess from './chess';
 import Reversi from './reversi';
 import Checkers from './checkers';
 import Go from './go';
+import Backgammon from './backgammon';
 
 const games = [
   {
@@ -44,6 +45,14 @@ const games = [
     component: Go,
     icon: '\u25CB',
     description: 'Ancient strategy game of territory and capture',
+  },
+  {
+    id: 'backgammon',
+    name: 'Backgammon',
+    path: '/backgammon',
+    component: Backgammon,
+    icon: '\u{1F3B2}',
+    description: 'Classic dice and strategy board game',
   },
 ];
 
