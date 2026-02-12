@@ -223,7 +223,7 @@ const GoBoard = ({ size, stones, onCellClick, disabled }) => {
 };
 
 const Go = () => {
-  const [state, setState, resetState] = useGameState('go', INITIAL_STATE);
+  const [state, setState] = useGameState('go', INITIAL_STATE);
   const { boardSize, difficulty, consecutivePasses, gameOver, winner } = state;
 
   const gameRef = useRef(null);
@@ -347,7 +347,11 @@ const Go = () => {
   };
 
   const handleNewGame = () => {
-    resetState();
+    setState({
+      ...INITIAL_STATE,
+      boardSize: boardSize,
+      difficulty: difficulty,
+    });
     gameRef.current = new Game(boardSize);
     setStones([]);
     setIsPlayerTurn(true);

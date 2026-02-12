@@ -29,7 +29,7 @@ const INITIAL_STATE = {
 };
 
 const Checkers = () => {
-  const [state, setState, resetState] = useGameState('checkers', INITIAL_STATE);
+  const [state, setState] = useGameState('checkers', INITIAL_STATE);
   const { board, currentPlayer, gameOver, winner, difficulty } = state;
   const [selectedPiece, setSelectedPiece] = useState(null);
 
@@ -142,7 +142,10 @@ const Checkers = () => {
 
   const handleReset = () => {
     setSelectedPiece(null);
-    resetState();
+    setState({
+      ...INITIAL_STATE,
+      difficulty: difficulty,
+    });
   };
 
   return (

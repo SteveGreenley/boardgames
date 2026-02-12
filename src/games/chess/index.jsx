@@ -23,7 +23,7 @@ const getGameStatus = (game) => {
 };
 
 const ChessGame = () => {
-  const [state, setState, resetState] = useGameState('chess', INITIAL_STATE);
+  const [state, setState] = useGameState('chess', INITIAL_STATE);
   const { fen, difficulty, gameOver } = state;
   const { isReady, isThinking, getMove } = useStockfish();
 
@@ -104,6 +104,13 @@ const ChessGame = () => {
     }));
   };
 
+  const handleNewGame = () => {
+    setState({
+      ...INITIAL_STATE,
+      difficulty: difficulty,
+    });
+  };
+
   const getStatusText = () => {
     if (isThinking) return 'Thinking...';
     if (gameOver === 'checkmate-white') return 'Checkmate! You win!';
@@ -148,7 +155,7 @@ const ChessGame = () => {
             ))}
           </select>
         </label>
-        <button onClick={resetState}>New Game</button>
+        <button onClick={handleNewGame}>New Game</button>
       </div>
     </div>
   );

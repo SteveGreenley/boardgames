@@ -27,7 +27,7 @@ const INITIAL_STATE = {
 };
 
 const Reversi = () => {
-  const [state, setState, resetState] = useGameState('reversi', INITIAL_STATE);
+  const [state, setState] = useGameState('reversi', INITIAL_STATE);
   const { board, currentPlayer, gameOver, winner, difficulty } = state;
 
   const isPlayerTurn = currentPlayer === PLAYER;
@@ -138,6 +138,13 @@ const Reversi = () => {
     });
   };
 
+  const handleNewGame = () => {
+    setState({
+      ...INITIAL_STATE,
+      difficulty: difficulty,
+    });
+  };
+
   return (
     <div className="reversi-container">
       <h1>Reversi</h1>
@@ -164,7 +171,7 @@ const Reversi = () => {
             ))}
           </select>
         </label>
-        <button onClick={resetState}>New Game</button>
+        <button onClick={handleNewGame}>New Game</button>
       </div>
     </div>
   );
